@@ -1,4 +1,4 @@
-# Twitter Sentiment Analysis App
+# Twitter Sentiment Bot
 
 ## Description
 
