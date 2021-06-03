@@ -231,10 +231,10 @@ io.on("connection", async (socket) => {
 console.log("NODE_ENV is", process.env.NODE_ENV);
 
 if (process.env.NODE_ENV === "production") {
-  app.use(express.static(path.join(__dirname, "../build")));
-  app.get("*", (request, res) => {
-    res.sendFile(path.join(__dirname, "../build", "index.html"));
-  });
+  // app.use(express.static(path.join(__dirname, "../build")));
+  // app.get("*", (request, res) => {
+  //   res.sendFile(path.join(__dirname, "../build", "index.html"));
+  // });
 } else {
   port = 3001;
 }
