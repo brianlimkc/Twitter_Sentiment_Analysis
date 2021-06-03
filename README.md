@@ -16,7 +16,7 @@ This app allows you to conduct simple sentiment analysis on recent tweets by sea
 
 ### Wireframes
 
-[<img src="https://i.imgur.com/G7cxLlw.png">]
+<img src="https://i.imgur.com/G7cxLlw.png">
 
 ### User Stories
 
@@ -26,8 +26,6 @@ A user will be able to:
 - View the individual tweets along with the individual sentiment score, comparative sentiment score, and list of positive and negative words detected in each tweet
 - Set up a real time stream of latest tweets according to specified search term
 - View the real time stream of latest tweets along with aggregated sentiment results and results for individual tweets
-
----
 
 ## Planning and Development Process
 
