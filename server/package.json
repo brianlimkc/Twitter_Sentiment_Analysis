@@ -6,7 +6,8 @@
     "socket.io": "^2.4.1",
     "socket.io-client": "^2.4.0",
     "util": "^0.12.4",
-    "express": "^4.17.1"
+    "express": "^4.17.1",
+    "request": "^2.88.2"
   },
   "scripts": {
      "start": "node server"
