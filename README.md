@@ -1,69 +1,69 @@
-# Real-Time Tweet Streamer
+# Your Project Title
 
-<p>
-  <img alt="Version" src="https://img.shields.io/badge/version-1.0.0-blue.svg?cacheSeconds=2592000" />
-  <a href="https://github.com/twitterdev/remote-dev-jobs-streamer" target="_blank">
-    <img alt="Documentation" src="https://img.shields.io/badge/documentation-yes-brightgreen.svg" />
-  </a>
-  <a href="https://twitter.com/tonyv00" target="_blank">
-    <img alt="Twitter: tonyv00" src="https://img.shields.io/twitter/follow/tonyv00.svg?style=social" />
-  </a>
-</p>
+Twitter Sentiment Analysis App
 
-> An example app to stream Tweets in real-time using the filtered stream endpoints and Tweet annotations to listen for Tweets based on your own topics of interest. See the [tutorial](https://developer.twitter.com/en/docs/tutorials/building-an-app-to-stream-tweets) for some real life examples of how this can be used and a step by step on how to build this app on your own.
+## Description
 
-### 🏠 [Guided tutorial](https://developer.twitter.com/en/docs/tutorials/building-an-app-to-stream-tweets)
+This app allows you to conduct simple sentiment analysis on recent tweets by search terms. You can either search for the most recent 20 tweets with the search term, or run a real time feed of tweets containing the search term.
 
-### ✨ [Glitch Demo](https://glitch.com/~twitter-real-time-tweet-streamer)
+### Technical Used
+- React
+- Bootstrap with react
+- Ajax (axios) for API
+- Node.js
+- Express.js
+- Sentiment (for sentiment analysis)
 
-## Prerequisites
+### Wireframes
 
-- Twitter Developer account: if you don’t have one already, you can [apply for one](https://developer.twitter.com/en/apply-for-access.html).
-- A Twitter developer app, which can be created in your Twitter developer account.
-- A bearer token from your app in the [Twitter developer portal](https://developer.twitter.com/en/docs/developer-portal/overview)
-- Set up a project to obtain access to v2 endpoints in the [Twitter developer portal](https://developer.twitter.com/en/docs/developer-portal/overview)l
-- Access to the [filtered stream](http://developer.twitter.com/en/docs/twitter-api/tweets/filter-stream) endpoint. You will also need to activate it in the [Twitter developer portal](https://developer.twitter.com/en/docs/developer-portal/overview) dashboard within your Twitter Developer account.
-- [Node.js](https://nodejs.org/)
-- [Npm](https://docs.npmjs.com/about-npm) (This is automatically installed with Node. Make sure you have npm 5.2 or higher.)
-- [Npx](https://www.npmjs.com/package/npx) (Included with npm 5.2 or higher)
+[<img src="https://i.imgur.com/G7cxLlw.png">]
 
-## Install
+### User Stories
 
-```sh
-npm install
-```
+A user will be able to:
+- Search for the 20 most recent according to a specified search term
+- View the aggregated sentiment analysis results for the 20 tweets, which includes overall sentiment score, overall comparative sentiment score, list of positive and negative words detected. 
+- View the individual tweets along with the individual sentiment score, comparative sentiment score, and list of positive and negative words detected in each tweet
+- Set up a real time stream of latest tweets according to specified search term
+- View the real time stream of latest tweets along with aggregated sentiment results and results for individual tweets
 
-## Environment setup
+---
 
-- Your bearer token can be found from your app in the [Twitter developer portal](https://developer.twitter.com/en/docs/developer-portal/overview)
+## Planning and Development Process
 
-```sh
-export TWITTER_BEARER_TOKEN=<REPLACE WITH YOUR BEARER TOKEN INCLUDING ANGLE BRACKETS>
-```
+- The project was chosen as I was interested in how one can try to derive value from the huge amount of information available from social media
+- I chose to use Twitter API due to the large number of global users as well as a very comprehensive API
+- Main issue with Twitter API was that was not meant to be called from frontend, and hence I had to learn how to build the backend to execute the API calls
+- Two main methods to search tweets were chosen (by 20 most recent tweets and by filtered live feed), as they provided sufficient functionality to user and also relatively straightforward to implement
+- Sentiment analysis method was chosen as it was straightforward to implement, very lightweight and fast to run, and provided sufficient functionality to user
+- Output results were chosen (sentiment score, comparative sentiment score, positive words, negative words) was chosen as they were easy for user to understand
+- Format to display output was chosen in order to present information to user in a clear manner, with aggregated results on top and a table containing individual breakdown for each tweet below
 
-## Usage
+### Problem-Solving Strategy
 
-```sh
-npm start
-```
+- The main issue I had was that I had no experience then in building or modifying a backend to make the required calls, which I overcame by building upon an existing demo app by Twitter. 
+- I broke the main functions of the app into more manageable portions and tackled them individually
 
-## Author
+### Unsolved problems
 
-👤 **Tony Vu**
+- To provide more options for users to refine their serch, e.g. by time period, by geographic location, by user
+- To allow the user to save searches and to compare the results of different search terms
+- To improve on the sentiment analysis. Current sentiment analysis is very simple, it only recognises keywords and does not recognise the overall context of the sentence e.g. the statement may be ironic or sarcastic and hence the sentiment will not be analysed correctly. 
+- To improve on presentation of information, especially on mobile devices
+- To provide limiting of the number of tweets fetched by live streams, in order to prevent the api limits from being exhausted too quickly. 
 
-- Website: https://twitter.com/tonyv00
-- Twitter: [@tonyv00](https://twitter.com/tonyv00)
-- Github: [@tonyv](https://github.com/tonyv)
+## APIs Used
 
-# How to Contribute
+Twitter API was chosen as it is a very popular social media platform with a huge global userbase. Leveraging on this API enables the user to tap on the huge number of live conversations about almost every topic possible in order to do sentiment analysis. 
 
-We'd love to get patches from you!
+---
 
-## 📝 License
+## Acknowledgments
 
-By contributing your code, you agree to license your contribution under the
-terms of the APLv2: https://github.com/twitter/repo-scaffolding/blob/master/LICENSE
+I would like to thank Ebere and Isaac for their support and encouragement for this project!
 
-## Code of Conduct
+---
 
-Read our [Code of Conduct](CODE_OF_CONDUCT.md) for the project.
+ ## References
+
+
