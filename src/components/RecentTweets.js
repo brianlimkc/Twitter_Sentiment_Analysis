@@ -1,10 +1,18 @@
 import React, {useReducer, useEffect} from 'react';
 import axios from "axios";
 import ShowTweets from "./ShowTweets";
+import MapComponent from "./MapComponent";
+import MapWithASearchBox from "./MapWithASearchBox";
+require('dotenv').config()
 
 let Sentiment = require('sentiment');
 let sentiment = new Sentiment();
 const searchURL = "/api/recent/"
+
+//const gMapsKey = process.env.REACT_APP_GOOGLE_KEY
+const gMapsKey = "AIzaSyCJV4hGUh3YtuXzv8V4DU_k9KL7PN8nHdM"
+
+console.log(gMapsKey)
 
 const reducer = (state, action) => {
     switch (action.type) {
@@ -125,6 +133,14 @@ function RecentTweets() {
                 </div>
             </form>
             {ShowTweets(state)}
+            <MapComponent
+                isMarkerShown
+                googleMapURL={`https://maps.googleapis.com/maps/api/js?v=3.exp&libraries=geometry,drawing,places&key=${gMapsKey}`}
+                loadingElement={<div style={{ height: `100%` }} />}
+                containerElement={<div style={{ height: `400px` }} />}
+                mapElement={<div style={{ height: `100%` }} />}
+            />
+            <MapWithASearchBox />
         </div>
     );
 }
