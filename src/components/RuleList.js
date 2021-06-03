@@ -50,9 +50,6 @@ const reducer = (state, action) => {
 const RuleList = () => {
   const initialState = { rules: [], newRule: "", isLoading: false, errors: [] };
   const [state, dispatch] = useReducer(reducer, initialState);
-  // const exampleRule = "from:twitterdev has:links";
-  // const ruleMeaning = `This example rule will match Tweets posted by
-  //    TwtterDev containing links`;
   const operatorsURL =
     "https://developer.twitter.com/en/docs/twitter-api/tweets/filtered-stream/integrate/build-a-rule";
   const rulesURL = "/api/rules";
@@ -60,8 +57,6 @@ const RuleList = () => {
   const createRule = async (e) => {
     e.preventDefault();
     const payload = { add: [{ value: state.newRule }] };  // defines the new rule to add
-    console.log(`payload = ${payload}`)
-
     dispatch({ type: "change_loading_status", payload: true });  // updates loading state to true
     try {
 
@@ -83,7 +78,7 @@ const RuleList = () => {
 
   const deleteRule = async (id) => {
     const payload = { delete: { ids: [id] } };
-    console.log(`payload = ${payload}`)
+
     dispatch({ type: "change_loading_status", payload: true });
     await axios.post(rulesURL, payload);
     dispatch({ type: "delete_rule", payload: id });
@@ -146,10 +141,7 @@ const RuleList = () => {
 
       try {
         const response = await axios.get(rulesURL); // makes a get call to the backend > result is to get the existing set of rules
-        console.log(`axios.get rulesURL response`)
-        console.log(response)
-
-        const { data: payload = [] } = response.data.body; // ??
+        const { data: payload = [] } = response.data.body;
         dispatch({  // update state.rules with payload
           type: "show_rules",
           payload,

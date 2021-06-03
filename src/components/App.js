@@ -7,7 +7,9 @@ import RuleList from "./RuleList";
 import RecentTweets from "./RecentTweets";
 
 class App extends React.Component {
+
   render() {
+
     return (
       <div className="ui container">
         <div className="introduction"></div>

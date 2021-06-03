@@ -18,19 +18,18 @@ function TweetDisplay(tweet) {
                 <TwitterTweetEmbed options={options} tweetId={id} placeholder={"Loading..."}/>
             </td>
             <td className={`${tweet.sentimentColor}`}>
-                <h3>Positive</h3>
                 {tweet.positive.map((positive,id)=>(
-                    <li key={id}>{positive}</li>
+                    <span className={`positive`} key={id}>{positive} </span>
                 ))}
             </td>
             <td className={`${tweet.sentimentColor}`}>
-                <h3>Negative</h3>
                 {tweet.negative.map((negative,id)=>(
-                    <li key={id}>{negative}</li>
+                    <span className={`negative`}key={id}>{negative} </span>
                 ))}
             </td>
             <td className={`${tweet.sentimentColor}`}>
-                <h3>Overall Score: {tweet.score}</h3>
+                <h1>{tweet.sentimentPhrase}</h1>
+                <h3>Sentiment Score: {tweet.score}</h3>
                 <h3>Comparative Score: {tweet.comparative.toFixed(2)}</h3>
             </td>
         </>

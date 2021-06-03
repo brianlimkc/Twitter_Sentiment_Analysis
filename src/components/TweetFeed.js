@@ -1,8 +1,9 @@
-import React, { useEffect, useReducer } from "react";
+import React, {useEffect, useReducer} from "react";
 import socketIOClient from "socket.io-client";
 import ErrorMessage from "./ErrorMessage";
 import Spinner from "./Spinner";
 import ShowTweets from "./ShowTweets";
+import axios from "axios";
 
 let Sentiment = require('sentiment');
 let sentiment = new Sentiment();
@@ -10,37 +11,45 @@ let sentiment = new Sentiment();
 const reducer = (state, action) => {
   switch (action.type) {
     case "add_tweet":
-
-      console.log("Inside reducer/add tweet")
-      console.log(action.payload)
-
       let tempTweetJSON = action.payload.data
       let result = sentiment.analyze(tempTweetJSON.text)
       let sentimentColor = "zero"
+      let sentimentPhrase = "Neutral"
       let score = result.score
 
       if (score <= -6) {
         sentimentColor = "neg5"
+        sentimentPhrase = "Extremely Negative"
       } else if (score <= -4 && score > -6) {
         sentimentColor = "neg4"
+        sentimentPhrase = "Very Negative"
       } else if (score <= -2 && score > -4) {
         sentimentColor = "neg3"
+        sentimentPhrase = "Moderately Negative"
       } else if (score <= -1 && score > -2) {
         sentimentColor = "neg2"
+        sentimentPhrase = "Mildly Negative"
       } else if (score > -1 && score < 0) {
         sentimentColor = "neg1"
+        sentimentPhrase = "Slightly Negative"
       } else if (score === 0) {
         sentimentColor = "zero"
+        sentimentPhrase = "Neutral"
       } else if (score > 0 && score < 1) {
         sentimentColor = "pos1"
+        sentimentPhrase = "Slightly Positive"
       } else if (score >= 1 && score < 2) {
         sentimentColor = "pos2"
+        sentimentPhrase = "Mildly Positive"
       } else if (score >= 2 && score < 4) {
         sentimentColor = "pos3"
+        sentimentPhrase = "Moderately Positive"
       } else if (score >= 4 && score < 6) {
         sentimentColor = "pos4"
+        sentimentPhrase = "Very Positive"
       } else if (score >= 6) {
         sentimentColor = "pos5"
+        sentimentPhrase = "Extremely Positive"
       }
 
       let tempTweet = {
@@ -51,7 +60,8 @@ const reducer = (state, action) => {
         calculation: result.calculation,
         negative: result.negative,
         positive: result.positive,
-        sentimentColor: sentimentColor
+        sentimentColor: sentimentColor,
+        sentimentPhrase: sentimentPhrase
         }
 
       let tempCuScore = state.cuScore + result.score
@@ -71,7 +81,7 @@ const reducer = (state, action) => {
         isWaiting: false,
         errors: [],
         positiveArray: tempPosArray,
-        negativeArray: tempNegArray
+        negativeArray: tempNegArray,
       }
 
     case "show_error":
@@ -80,6 +90,8 @@ const reducer = (state, action) => {
       return { ...state, errors: action.payload, isWaiting: false };
     case "update_waiting":
       return { ...state, error: null, isWaiting: true };
+    case "update_searchTerm":
+      return { ...state, searchTerm: action.payload };
     default:
       return state;
   }
@@ -92,13 +104,14 @@ const TweetFeed = () => {
     isWaiting: true,
     cuScore: 0,
     cuComScore: 0,
-    searchTerm: "",
+    searchTerm: [],
     positiveArray: [],
     negativeArray: []
   };
 
   const [state, dispatch] = useReducer(reducer, initialState);
   const { error, isWaiting } = state;
+  const rulesURL = "/api/rules";
 
   const streamTweets = () => {
     let socket;
@@ -122,7 +135,6 @@ const TweetFeed = () => {
       dispatch({ type: "show_error", payload: data });
     });
     socket.on("authError", (data) => {
-      console.log("data =>", data);
       dispatch({ type: "add_errors", payload: [data] });
     });
   };
@@ -182,6 +194,16 @@ const TweetFeed = () => {
 
   useEffect(() => {
     streamTweets();
+    axios.get(rulesURL)
+        .then(function(response) {
+          if (response.data.body.data) {
+            let tempSentimentArray = response.data.body.data.map(el=>el.value)
+            dispatch({ type: "update_searchTerm", payload: [...tempSentimentArray]});
+          }
+        })
+
+
+
   }, []);
 
   return (

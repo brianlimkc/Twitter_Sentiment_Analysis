@@ -19,31 +19,44 @@ const reducer = (state, action) => {
             let tempTweetArray = tempArray.map(tweet=> {
                 let result = sentiment.analyze(tweet.text)
                 let sentimentColor = "zero"
+                let sentimentPhrase = "Neutral"
                 let score = result.score
 
                 if (score <= -6) {
                     sentimentColor = "neg5"
+                    sentimentPhrase = "Extremely Negative"
                 } else if (score <= -4 && score > -6) {
                     sentimentColor = "neg4"
+                    sentimentPhrase = "Very Negative"
                 } else if (score <= -2 && score > -4) {
                     sentimentColor = "neg3"
+                    sentimentPhrase = "Moderately Negative"
                 } else if (score <= -1 && score > -2) {
                     sentimentColor = "neg2"
+                    sentimentPhrase = "Mildly Negative"
                 } else if (score > -1 && score < 0) {
                     sentimentColor = "neg1"
+                    sentimentPhrase = "Slightly Negative"
                 } else if (score === 0) {
                     sentimentColor = "zero"
+                    sentimentPhrase = "Neutral"
                 } else if (score > 0 && score < 1) {
                     sentimentColor = "pos1"
+                    sentimentPhrase = "Slightly Positive"
                 } else if (score >= 1 && score < 2) {
                     sentimentColor = "pos2"
+                    sentimentPhrase = "Mildly Positive"
                 } else if (score >= 2 && score < 4) {
                     sentimentColor = "pos3"
+                    sentimentPhrase = "Moderately Positive"
                 } else if (score >= 4 && score < 6) {
                     sentimentColor = "pos4"
+                    sentimentPhrase = "Very Positive"
                 } else if (score >= 6) {
                     sentimentColor = "pos5"
+                    sentimentPhrase = "Extremely Positive"
                 }
+
 
                 tempPosArray = [...new Set([...tempPosArray, ...result.positive])]
                 tempNegArray = [...new Set([...tempNegArray, ...result.negative])]
@@ -56,8 +69,10 @@ const reducer = (state, action) => {
                     calculation: result.calculation,
                     negative: result.negative,
                     positive: result.positive,
-                    sentimentColor: sentimentColor
+                    sentimentColor: sentimentColor,
+                    sentimentPhrase: sentimentPhrase
                 }
+
                 return tempTweet
             })
 
@@ -89,7 +104,7 @@ function RecentTweets() {
         tweets: [],
         cuScore: 0,
         cuComScore: 0,
-        searchTerm: "",
+        searchTerm: [],
         positiveArray: [],
         negativeArray: []
     }
@@ -105,18 +120,15 @@ function RecentTweets() {
         try {
             const response = await axios.get(`${searchURL}${convertedSearchTerm}`);
             if (response.data.body.errors) {
-                console.log("Error in fetching tweets")
-                console.log(response.data.body.errors)
             }
             else {
-                console.log("Success in fetching tweets")
                 dispatch({type: "add_tweet", payload: response.data.body.data})
             }
 
         } catch (e) {
-            console.log("Unable to fetch tweets")
         }
     }
+
 
     return (
         <div>
