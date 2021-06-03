@@ -67,47 +67,47 @@ td {
 tr:hover {background-color: lightblue;}
 
 .neg5 {
-  background-color: #f00;
+  background-color: #e74218;
   color: white;
 }
 
 .neg4 {
-  background-color: #f33;
+  background-color: #ec6746;
   color: white;
 }
 
 .neg3 {
-  background-color: #f66;
+  background-color: #f08d75;
 }
 
 .neg2 {
-  background-color: #f99;
+  background-color: #f5b3a3;
 }
 
 .neg1 {
-  background-color: #fcc;
+  background-color: #fad9d1;
 }
 
 .pos5 {
-  background-color: #02f;
+  background-color: #17bbe8;
   color: white;
 }
 
 .pos4 {
-  background-color: #334eff;
+  background-color: #45c8ed;
   color: white;
 }
 
 .pos3 {
-  background-color: #667aff;
+  background-color: #74d6f1;
 }
 
 .pos2 {
-  background-color: #99a7ff;
+  background-color: #a2e4f6;
 }
 
 .pos1 {
-  background-color: #ccd3ff;
+  background-color: #d1f1fa;
 }
 
 .zero {

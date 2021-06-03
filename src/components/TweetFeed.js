@@ -54,13 +54,13 @@ const reducer = (state, action) => {
         sentimentColor: sentimentColor
         }
 
-      // tempTweetArray.sort((a,b)=>b.score-a.score)
       let tempCuScore = state.cuScore + result.score
       let tempCuComScore = state.cuComScore + result.comparative
       let tempTweetArray = [...state.tweets]
       tempTweetArray.unshift(tempTweet)
 
-      console.log(tempTweet)
+      let tempPosArray = [...new Set([...state.positiveArray, ...result.positive])]
+      let tempNegArray = [...new Set([...state.negativeArray, ...result.negative])]
 
       return {
         ...state,
@@ -70,6 +70,8 @@ const reducer = (state, action) => {
         error: null,
         isWaiting: false,
         errors: [],
+        positiveArray: tempPosArray,
+        negativeArray: tempNegArray
       }
 
     case "show_error":
@@ -90,7 +92,9 @@ const TweetFeed = () => {
     isWaiting: true,
     cuScore: 0,
     cuComScore: 0,
-    searchTerm: ""
+    searchTerm: "",
+    positiveArray: [],
+    negativeArray: []
   };
 
   const [state, dispatch] = useReducer(reducer, initialState);
@@ -179,19 +183,6 @@ const TweetFeed = () => {
   useEffect(() => {
     streamTweets();
   }, []);
-
-  // const showTweets = () => {
-  //   if (tweets.length > 0) {
-  //     console.log(tweets)
-  //     return (
-  //         <React.Fragment>
-  //           {tweets.map((tweet) => (
-  //               <Tweet key={tweet.data.id} json={tweet} />
-  //           ))}
-  //         </React.Fragment>
-  //     );
-  //   }
-  // };
 
   return (
       <div>

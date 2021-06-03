@@ -1,10 +1,9 @@
 import React, {useReducer} from 'react';
 import axios from "axios";
 import ShowTweets from "./ShowTweets";
-<<<<<<< Updated upstream
-=======
+
 require('dotenv').config()
->>>>>>> Stashed changes
+
 
 let Sentiment = require('sentiment');
 let sentiment = new Sentiment();
@@ -14,6 +13,9 @@ const reducer = (state, action) => {
     switch (action.type) {
         case "add_tweet":
             let tempArray = action.payload
+            let tempPosArray = []
+            let tempNegArray = []
+
             let tempTweetArray = tempArray.map(tweet=> {
                 let result = sentiment.analyze(tweet.text)
                 let sentimentColor = "zero"
@@ -43,6 +45,9 @@ const reducer = (state, action) => {
                     sentimentColor = "pos5"
                 }
 
+                tempPosArray = [...new Set([...tempPosArray, ...result.positive])]
+                tempNegArray = [...new Set([...tempNegArray, ...result.negative])]
+
                 let tempTweet = {
                     id: tweet.id,
                     text: tweet.text,
@@ -64,7 +69,9 @@ const reducer = (state, action) => {
                 ...state,
                 tweets: tempTweetArray,
                 cuScore: tempCuScore,
-                cuComScore: tempCuComScore
+                cuComScore: tempCuComScore,
+                positiveArray: tempPosArray,
+                negativeArray: tempNegArray
             }
         case "add_searchTerm":
             return {
@@ -82,7 +89,9 @@ function RecentTweets() {
         tweets: [],
         cuScore: 0,
         cuComScore: 0,
-        searchTerm: ""
+        searchTerm: "",
+        positiveArray: [],
+        negativeArray: []
     }
 
     const [state, dispatch] = useReducer(reducer, initialState)
@@ -111,7 +120,7 @@ function RecentTweets() {
 
     return (
         <div>
-            <h1>Recent Tweets Search Component</h1>
+            <h1>Twitter Sentiment by Search Term</h1>
             <form>
                 <div className="ui fluid action input">
                     <input

@@ -5,13 +5,13 @@ const Navbar = () => {
   return (
     <div className="ui three item menu">
         <NavLink to="/recent" className="item" >
-        Recent Tweet Search
+        Recent Tweets Search
         </NavLink>
         <NavLink to="/rules" className="item" >
-        Manage Rules
+        Set Rules for Tweet Stream
         </NavLink>
         <NavLink to="/tweets" className="item" >
-        Tweet Stream
+        View Tweet Stream
         </NavLink>
 
     </div>

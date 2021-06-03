@@ -4,7 +4,7 @@ import TweetDisplay from "./TweetDisplay";
 
 function ShowTweets(state) {
 
-    const { tweets, searchTerm, cuScore, cuComScore } = state;
+    const { tweets, searchTerm, cuScore, cuComScore, positiveArray, negativeArray } = state;
 
     if (tweets && tweets.length > 0) {
 
@@ -16,6 +16,9 @@ function ShowTweets(state) {
                             <th><h1>Search Term</h1></th>
                             <th><h1>Average Score</h1></th>
                             <th><h1>Average Comparative</h1></th>
+                            <th><h1>Positive Words</h1></th>
+                            <th><h1>Negative Words</h1></th>
+
                         </tr>
                     </thead>
                     <tbody>
@@ -23,6 +26,12 @@ function ShowTweets(state) {
                             <td><h1>{searchTerm}</h1></td>
                             <td><h1>{(cuScore/tweets.length).toFixed(2)}</h1></td>
                             <td><h1>{(cuComScore/tweets.length).toFixed(2)}</h1></td>
+                            <td>{positiveArray.map((word,id)=>(
+                                <li key={id}>{word}</li>
+                            ))}</td>
+                            <td>{negativeArray.map((word,id)=>(
+                                <li key={id}>{word}</li>
+                            ))}</td>
                         </tr>
                     </tbody>
                 </Table>
