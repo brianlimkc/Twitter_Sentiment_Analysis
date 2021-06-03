@@ -5,6 +5,7 @@ const request = require("request");
 const path = require("path");
 const socketIo = require("socket.io");
 const http = require("http");
+require('dotenv').config()
 
 const app = express();
 let port = process.env.PORT || 3000;
@@ -22,21 +23,16 @@ server.on('error', function(err) {
   console.log(err)
 });
 
-const BEARER_TOKEN = "AAAAAAAAAAAAAAAAAAAAACLCQAEAAAAAr1SVf6xeXSlbSz9hqtpBumSi20A%3DN49PWUmfpZAAG0kW00nstEJPNbArOYeaR0OdsRXDBU9ZHJ4vWC";
-// const BEARER_TOKEN = process.env.TWITTER_BEARER_TOKEN;
+const BEARER_TOKEN = process.env.TWITTER_BEARER_TOKEN;
 
-let timeout =1 * 1000;
+let timeout = 1;
 
 const streamURL = new URL(
-  "https://api.twitter.com/2/tweets/search/stream?tweet.fields=context_annotations&expansions=author_id"
+  "https://api.twitter.com/2/tweets/search/stream"
 );
 
 const rulesURL = new URL(
   "https://api.twitter.com/2/tweets/search/stream/rules"
-);
-
-const recentURL = new URL(
-    "https://api.twitter.com/2/tweets/search/recent?max_results=10&query=%23singapore"
 );
 
 const errorMessage = {
@@ -176,7 +172,7 @@ const streamTweets = (socket, token) => {
     timeout: 31000,
   };
 
-  console.log(`streamtweets config: ${config}`)
+  console.log(`streaming tweets`)
 
   try {
     const stream = request.get(config);
@@ -191,7 +187,7 @@ const streamTweets = (socket, token) => {
           } else {
             if (json.data) {
               socket.emit("tweet", json);
-              console.log(`stream tweet json: ${json}`)
+              console.log(`receiving new tweet`)
             } else {
               socket.emit("authError", json);
             }

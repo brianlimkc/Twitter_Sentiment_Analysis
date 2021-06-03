@@ -3,17 +3,76 @@ import Tweet from "./Tweet";
 import socketIOClient from "socket.io-client";
 import ErrorMessage from "./ErrorMessage";
 import Spinner from "./Spinner";
+import ShowTweets from "./ShowTweets";
+
+let Sentiment = require('sentiment');
+let sentiment = new Sentiment();
 
 const reducer = (state, action) => {
   switch (action.type) {
     case "add_tweet":
+
+      console.log("Inside reducer/add tweet")
+      console.log(action.payload)
+
+      let tempTweetJSON = action.payload.data
+      let result = sentiment.analyze(tempTweetJSON.text)
+      let sentimentColor = "zero"
+      let score = result.score
+
+      if (score <= -6) {
+        sentimentColor = "neg5"
+      } else if (score <= -4 && score > -6) {
+        sentimentColor = "neg4"
+      } else if (score <= -2 && score > -4) {
+        sentimentColor = "neg3"
+      } else if (score <= -1 && score > -2) {
+        sentimentColor = "neg2"
+      } else if (score > -1 && score < 0) {
+        sentimentColor = "neg1"
+      } else if (score === 0) {
+        sentimentColor = "zero"
+      } else if (score > 0 && score < 1) {
+        sentimentColor = "pos1"
+      } else if (score >= 1 && score < 2) {
+        sentimentColor = "pos2"
+      } else if (score >= 2 && score < 4) {
+        sentimentColor = "pos3"
+      } else if (score >= 4 && score < 6) {
+        sentimentColor = "pos4"
+      } else if (score >= 6) {
+        sentimentColor = "pos5"
+      }
+
+      let tempTweet = {
+        id: tempTweetJSON.id,
+        text: tempTweetJSON.text,
+        score: result.score,
+        comparative: result.comparative,
+        calculation: result.calculation,
+        negative: result.negative,
+        positive: result.positive,
+        sentimentColor: sentimentColor
+        }
+
+      // tempTweetArray.sort((a,b)=>b.score-a.score)
+      let tempCuScore = state.cuScore + result.score
+      let tempCuComScore = state.cuComScore + result.comparative
+      let tempTweetArray = [...state.tweets]
+      tempTweetArray.unshift(tempTweet)
+
+      console.log(tempTweet)
+
       return {
         ...state,
-        tweets: [action.payload, ...state.tweets],
+        tweets: tempTweetArray,
+        cuScore: tempCuScore,
+        cuComScore: tempCuComScore,
         error: null,
         isWaiting: false,
         errors: [],
-      };
+      }
+
     case "show_error":
       return { ...state, error: action.payload, isWaiting: false };
     case "add_errors":
@@ -30,10 +89,13 @@ const TweetFeed = () => {
     tweets: [],
     error: {},
     isWaiting: true,
+    cuScore: 0,
+    cuComScore: 0,
+    searchTerm: ""
   };
 
   const [state, dispatch] = useReducer(reducer, initialState);
-  const { tweets, error, isWaiting } = state;
+  const { error, isWaiting } = state;
 
   const streamTweets = () => {
     let socket;
@@ -119,24 +181,25 @@ const TweetFeed = () => {
     streamTweets();
   }, []);
 
-  const showTweets = () => {
-    if (tweets.length > 0) {
-      return (
-          <React.Fragment>
-            {tweets.map((tweet) => (
-                <Tweet key={tweet.data.id} json={tweet} />
-            ))}
-          </React.Fragment>
-      );
-    }
-  };
+  // const showTweets = () => {
+  //   if (tweets.length > 0) {
+  //     console.log(tweets)
+  //     return (
+  //         <React.Fragment>
+  //           {tweets.map((tweet) => (
+  //               <Tweet key={tweet.data.id} json={tweet} />
+  //           ))}
+  //         </React.Fragment>
+  //     );
+  //   }
+  // };
 
   return (
       <div>
         {reconnectMessage()}
         {errorMessage()}
         {waitingMessage()}
-        {showTweets()}
+        {ShowTweets(state)}
       </div>
   );
 };
