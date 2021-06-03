@@ -1,6 +1,4 @@
-# Your Project Title
-
-Twitter Sentiment Analysis App
+# Twitter Sentiment Analysis App
 
 ## Description
 
