@@ -1,5 +1,4 @@
 import React, { useEffect, useReducer } from "react";
-import Tweet from "./Tweet";
 import socketIOClient from "socket.io-client";
 import ErrorMessage from "./ErrorMessage";
 import Spinner from "./Spinner";

@@ -1,6 +1,10 @@
-import React, {useReducer, useEffect} from 'react';
+import React, {useReducer} from 'react';
 import axios from "axios";
 import ShowTweets from "./ShowTweets";
+<<<<<<< Updated upstream
+=======
+require('dotenv').config()
+>>>>>>> Stashed changes
 
 let Sentiment = require('sentiment');
 let sentiment = new Sentiment();

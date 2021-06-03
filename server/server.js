@@ -14,6 +14,7 @@ const get = util.promisify(request.get);
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
+app.use(express.static(path.resolve(__dirname, 'build'))); //building in this folder
 
 const server = http.createServer(app);
 const io = socketIo(server);
@@ -160,6 +161,10 @@ app.post("/api/rules", async (req, res) => {
     res.send(e);
   }
 });
+
+app.get('*', (req, res) => {
+  res.sendFile(path.resolve(__dirname, 'build', 'index.html'));
+}); // catch any other routes not caught by above
 
 const streamTweets = (socket, token) => {
   let stream;
