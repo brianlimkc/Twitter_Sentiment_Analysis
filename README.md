@@ -4,6 +4,8 @@
 
 This app allows you to conduct simple sentiment analysis on recent tweets by search terms. You can either search for the most recent 20 tweets with the search term, or run a real time feed of tweets containing the search term.
 
+Try it out here - https://blimkc-twt-sentanalysis.herokuapp.com/
+
 ### Technical Used
 - React
 - Bootstrap with react
